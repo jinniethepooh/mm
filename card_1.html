@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story Timeline</title>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // --- Dark Theme Palette ---
+                        'dark-bg': '#0f172a',      /* Slate 950 (Body Background) */
+                        'dark-card': '#5e6d72',    /* Slate 800 (Card Surface) */
+                        'dark-element': '#334155', /* Slate 700 (Interactive Elements) */
+                        'text-main': '#f1f5f9',    /* Slate 100 (Primary Text) */
+                        'text-muted': '#94a3b8',   /* Slate 400 (Secondary Text) */
+                        
+                        // --- Accents ---
+                        'accent-red': '#f43f5e',   /* Rose 500 */
+                        'accent-pink': '#fb7185',  /* Rose 400 */
+                    },
+                    fontFamily: {
+                    //     display: ['Playfair Display', 'serif'],
+                        // sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+        /* Custom Scrollbar for Dark Mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+
+        /* --- Custom CSS for Main Card Flip and Hearts --- */
+        .card-container {
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            transition: transform 1.2s;
+            transform-style: preserve-3d;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+            text-align: center;
+            background-color: #1e293b; 
+            border: 1px solid #334155;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-front {
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            display: block; 
+            overflow-y: auto; 
+            padding: 0;
+            background-color: #0f172a; /* Make the timeline bg slightly darker for depth */
+        }
+
+        .card-opened .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Heart Particle CSS */
+        .heart {
+            position: absolute;
+            font-size: 1.5rem;
+            color: #D63447;
+            animation: rise 5s linear forwards;
+            pointer-events: none;
+            user-select: none;
+            opacity: 0;
+            filter: drop-shadow(0 0 5px rgba(255, 138, 155, 0.7));
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-500px) scale(1.5); opacity: 0; }
+        }
+
+        /* --- Custom CSS for the Timeline Structure --- */
+        .timeline {
+            position: relative;
+            min-height: 100%;
+        }
+        
+        /* Vertical Line */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: #334155; /* Dark gray line */
+            transform: translateX(-50%);
+        }
+
+        @media (max-width: 639px) {
+            .timeline::before {
+                left: 20px;
+                transform: translateX(0);
+            }
+        }
+
+        /* Timeline Dot */
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #f43f5e;
+            border: 4px solid #0f172a; /* Border matches timeline bg */
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        /* Dot adjustment for mobile */
+        @media (max-width: 639px) {
+            .timeline-dot {
+                left: 20px;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .timeline-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+        }
+        
+        /* Mini Flip Cards */
+        .mini-flip-container {
+            perspective: 1000px;
+            height: 320px;
+        }
+
+        .mini-flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .mini-flip-front, .mini-flip-back {
+            position: absolute;
+            width: 100%;
+            /* height: 100%; */
+            /* height: 80%; */
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            border: 1px solid #334155;
+        }
+
+        .mini-flip-front {
+            background-color: #1e293b; /* Dark Card Surface */
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .mini-flip-front:hover {
+            border-color: #f43f5e; /* Red border on hover */
+        }
+
+        .mini-flip-back {
+            color: #f1f5f9;
+            transform: rotateY(180deg);
+            padding: 1.5rem;
+            cursor: pointer;
+            text-align: left;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        .flipped .mini-flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Style the hidden title/date outside the flip box */
+        .timeline-header {
+            text-align: inherit; /* Align with the parent timeline item (left/right) */
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg min-h-screen flex items-center justify-center p-4 font-sans text-text-main overflow-hidden">
+
+    <!-- Main Card Container: Fixed height to start, then adapts if the content needs scrolling -->
+    <div id="cardContainer" class="card-container w-full max-w-4xl mx-auto h-[90vh]">
+        <div id="cardInner" class="card-inner w-full h-full">
+
+            <!-- Front of the Card (The Cover) -->
+            <div class="card-front shadow-2xl hover:shadow-primary-red/50 transition duration-300">
+                <h1 class="font-display text-4xl sm:text-6xl text-primary-red mb-4 font-bold">
+                    Happy 1st Anniversary!
+                </h1>
+                <p class="text-xl sm:text-2xl text-text-light/80 mb-8">
+                    🐢 mookmook 🐢
+                </p>
+
+                <button id="openButton" class="
+                    bg-accent-pink hover:bg-accent-pink/80
+                    text-white font-bold py-3 px-10 rounded-full shadow-xl
+                    transition duration-300 transform hover:scale-105
+                    focus:outline-none focus:ring-4 focus:ring-primary-red/50
+                    focus:ring-offset-dark-bg
+                ">
+                    💖 Open Me 💖
+                </button>
+            </div>
+
+            <!-- Back of the Card (The Timeline Content) -->
+            <div class="card-back">
+                 <!-- Timeline Container -->
+                <div class="timeline container max-w-4xl mx-auto p-4 sm:p-8">
+
+                    <!-- Title Header -->
+                    <header class="text-center mb-16 pt-8">
+                        <h1 class="font-display text-5xl sm:text-6xl text-primary-red mb-3 font-bold">
+                            Our Story
+                        </h1>
+                        <p class="text-xl sm:text-2xl text-secondary-pink">
+                            A journey of our first year in pictures and memories
+                        </p>
+                    </header>
+
+                    <!-- Timeline Item 1: First Date (Right Side on Desktop) -->
+                    <div class="timeline-item relative mb-24 group">
+                        <div class="timeline-dot top-0 group-hover:bg-accent-pink transition-colors"></div>
+                        <div class="flex sm:justify-end">
+                            <div class="w-full sm:w-1/2 sm:ml-12">
+                                <div class="mb-4 sm:text-left pl-5">
+                                    <h3 class="text-xl font-bold text-accent-red">The Beginning</h3>
+                                    <p class="text-sm text-text-muted">October 23, 2024</p>
+                                </div>
+                                <div class="mini-flip-container">
+                                    <div class="mini-flip-inner">
+                                        <!-- Front: Image -->
+                                        <div class="mini-flip-front mini-flip-trigger overflow-hidden">
+                                            <img src="https://placehold.co/600x400/1e293b/f43f5e?text=First+Date+Photo"
+                                                alt="Memory 1" class="timeline-image"
+                                            >
+                                            <div class="absolute bottom-4 bg-black/60 px-4 py-1 rounded-full text-xs text-white backdrop-blur-sm">
+                                                ↻
+                                            </div>
+                                        </div>
+                                        <!-- Back: Text -->
+                                        <div class="mini-flip-back mini-flip-trigger bg-dark-card border-accent-red">
+                                            <p class="text-lg font-light leading-relaxed">
+                                                "I knew from the moment we ordered the same drink that this was going to be something special. That coffee shop will always be our place."
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 2: First Trip (Left Side on Desktop) -->
+                    <div class="timeline-item relative mb-20 group">
+                        <!-- Central Dot -->
+                        <div class="timeline-dot top-0 group-hover:bg-primary-red"></div>
+
+                        <div class="flex sm:justify-start">
+                            <div class="w-full sm:w-1/2 sm:mr-16">
+                                
+                                <div class="timeline-header mb-4 sm:text-right">
+                                    <h3 class="text-xl font-bold text-secondary-pink mb-1">Chapter 2: Mountain Getaway</h3>
+                                    <p class="text-sm text-text-light/70">April 15, 2023</p>
+                                </div>
+
+                                <div class="mini-flip-container">
+                                    <div class="mini-flip-inner">
+                                        <!-- Mini Flip Front: Image Cover -->
+                                        <div class="mini-flip-front mini-flip-trigger p-0 shadow-xl">
+                                            <!-- Placeholder Image - Replace the 'src' attribute with your actual photo URL -->
+                                            <img src="https://placehold.co/400x300/D63447/FFFFFF?text=Click+to+Reveal+Message" 
+                                                alt="Our first trip away" class="timeline-image rounded-xl">
+                                        </div>
+
+                                        <!-- Mini Flip Back: Message Content (Primary Red) -->
+                                        <div class="mini-flip-back mini-flip-trigger bg-primary-red text-white">
+                                            <p class="text-lg font-light mb-4">
+                                                Our first adventure! Those mountains felt small compared to how big my heart felt being next to you. Waking up to that sunrise together was a moment I'll never forget.
+                                            </p>
+                                            <p class="text-sm font-semibold">
+                                                [Click to see the photo again]
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 3: Moving In (Right Side on Desktop) -->
+                    <div class="timeline-item relative mb-20 group">
+                        <!-- Central Dot -->
+                        <div class="timeline-dot top-0 group-hover:bg-secondary-pink"></div>
+
+                        <div class="flex sm:justify-end">
+                            <div class="w-full sm:w-1/2 sm:ml-16">
+                                
+                                <div class="timeline-header mb-4 sm:text-left">
+                                    <h3 class="text-xl font-bold text-primary-red mb-1">Chapter 3: Building a Home</h3>
+                                    <p class="text-sm text-text-light/70">October 1, 2023</p>
+                                </div>
+                                
+                                <div class="mini-flip-container">
+                                    <div class="mini-flip-inner">
+                                        <!-- Mini Flip Front: Image Cover -->
+                                        <div class="mini-flip-front mini-flip-trigger p-0 shadow-xl">
+                                            <!-- Placeholder Image - Replace the 'src' attribute with your actual photo URL -->
+                                            <img src="https://placehold.co/400x300/FF8A9B/FFFFFF?text=Click+to+Reveal+Message" 
+                                                alt="Moving in together" class="timeline-image rounded-xl">
+                                        </div>
+
+                                        <!-- Mini Flip Back: Message Content (Secondary Pink) -->
+                                        <div class="mini-flip-back mini-flip-trigger bg-secondary-pink text-gray-900">
+                                            <p class="text-lg font-light mb-4">
+                                                The boxes were endless, but working side-by-side to turn an apartment into *our* home was one of the happiest times. Every shared meal and late-night movie is a gift.
+                                            </p>
+                                            <p class="text-sm font-semibold">
+                                                [Click to see the photo again]
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Item 4: Current Anniversary (Left Side on Desktop) -->
+                    <div class="timeline-item relative mb-20 group">
+                        <!-- Central Dot -->
+                        <div class="timeline-dot top-0 group-hover:bg-primary-red"></div>
+
+                        <div class="flex sm:justify-start">
+                            <div class="w-full sm:w-1/2 sm:mr-16">
+                                
+                                <div class="timeline-header mb-4 sm:text-right">
+                                    <h3 class="text-xl font-bold text-secondary-pink mb-1">Chapter 4: Today and Forever</h3>
+                                    <p class="text-sm text-primary-red font-semibold">Our [Current Year] Anniversary!</p>
+                                </div>
+                                
+                                <div class="mini-flip-container">
+                                    <div class="mini-flip-inner">
+                                        <!-- Mini Flip Front: Image Cover -->
+                                        <div class="mini-flip-front mini-flip-trigger p-0 shadow-xl">
+                                            <!-- Placeholder Image - Replace the 'src' attribute with your actual photo URL -->
+                                            <img src="https://placehold.co/400x300/D63447/FFFFFF?text=Click+to+Reveal+Message" 
+                                                alt="Happy Anniversary!" class="timeline-image rounded-xl">
+                                        </div>
+
+                                        <!-- Mini Flip Back: Message Content (Primary Red) -->
+                                        <div class="mini-flip-back mini-flip-trigger bg-primary-red text-white">
+                                            <p class="text-lg font-light mb-4">
+                                                This timeline is just a glimpse, but my love for you expands infinitely every single day. Here's to us, to the beautiful past, and to the even more amazing future we're building together. Happy Anniversary!
+                                            </p>
+                                            <p class="mt-4 text-xl font-display text-white">[Your Name]</p>
+                                            <p class="text-sm font-semibold mt-2">
+                                                [Click to see the photo again]
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for the Card Flip and Heart Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const openButton = document.getElementById('openButton');
+            const cardContainer = document.getElementById('cardContainer');
+
+            // Function to generate a random heart emoji
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.textContent = '💖'; // Heart emoji
+                
+                // Position the heart randomly near the center of the card
+                const rect = cardContainer.getBoundingClientRect();
+                const x = rect.left + rect.width / 2 + (Math.random() - 0.5) * rect.width * 0.3; // 30% spread
+                const y = rect.top + rect.height / 2 + (Math.random() - 0.5) * rect.height * 0.3; // 30% spread
+                
+                heart.style.left = `${x}px`;
+                heart.style.top = `${y}px`;
+                document.body.appendChild(heart);
+
+                // Remove the heart after animation finishes
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }
+
+            // Function to set up the nested flip card interactions
+            function setupMiniFlipCards() {
+                const miniFlipTriggers = document.querySelectorAll('.mini-flip-trigger');
+                miniFlipTriggers.forEach(trigger => {
+                    trigger.addEventListener('click', () => {
+                        // Find the closest parent .mini-flip-container and toggle the 'flipped' class
+                        const container = trigger.closest('.mini-flip-container');
+                        if (container) {
+                            container.classList.toggle('flipped');
+                        }
+                    });
+                });
+            }
+
+
+            // Event listener for the main card flip
+            openButton.addEventListener('click', () => {
+                // 1. Flip the card
+                cardContainer.classList.add('card-opened');
+                openButton.disabled = true; // Prevent multiple clicks
+
+                // 2. Start the heart animation burst
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(createHeart, i * 100); // Stagger the hearts
+                }
+                
+                // 3. Adjust body alignment for scrollable timeline
+                document.body.classList.remove('items-center');
+                document.body.classList.add('items-start'); 
+
+                // 4. Set up the click listeners for the nested flip cards
+                setupMiniFlipCards();
+            });
+        });
+    </script>
+
+</body>
+</html>
