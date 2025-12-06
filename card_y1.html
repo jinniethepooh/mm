@@ -17,7 +17,7 @@
         /* --- Timeline Styling (Custom CSS for the line effect) --- */
         .timeline-container {
             position: relative;
-            padding-left: 2rem; 
+            padding-left: 2rem;
         }
 
         .timeline-container::before {
@@ -66,7 +66,7 @@
         .flip-card {
             background-color: transparent;
             width: 100%;
-            height: 300px;
+            height: 320px;
             perspective: 1000px;
             margin-bottom: 0.5rem;
             cursor: pointer;
@@ -87,7 +87,8 @@
             transform: rotateY(180deg);
         }
 
-        .flip-card-front, .flip-card-back {
+        .flip-card-front,
+        .flip-card-back {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -130,7 +131,7 @@
         }
 
         .mini-flip-container.flipped .mini-flip-inner {
-            transform: rotateY(180deg);   /* Horizontal left↔right flip */
+            transform: rotateY(180deg);
         }
 
         .mini-flip-front,
@@ -152,7 +153,7 @@
         }
 
         .mini-flip-back {
-            transform: rotateY(180deg);   /* Back content stays reversed until flipped */
+            transform: rotateY(180deg);
             background-color: rgba(31, 41, 55, 0.95);
             backdrop-filter: blur(6px);
         }
@@ -221,6 +222,8 @@
 
     </style>
 </head>
+
+
 <body class="p-4 md:p-8 text-gray-200">
 
     <div id="frontPage" class="front-page p-8 bg-gradient-to-br from-indigo-700 to-blue-800 text-white shadow-2xl">
@@ -238,9 +241,9 @@
 
     <header class="text-center py-8 mb-8">
         <h1 class="text-4xl font-extrabold text-white">Our Story</h1>
-        <p class="text-lg text-gray-400 mt-2">
+        <h3 class="text-lg text-gray-400 mt-2">
             A journey of our first year in pictures and memories
-        </p>
+        </h3>
     </header>
 
     <div class="max-w-xl mx-auto">
@@ -250,16 +253,16 @@
             <script>
                 // Data for the 10 timeline moments
                 const timelineData = [
-                    { title: "Our Beginning", date: "October 24, 2024", text: "Well, it took a fair bit of courage for me to match someone… and I'm glad I spent it on you. The one and only :-)", img: "assets/mm_1y_1.jpg" },
-                    { title: "First Incident!", date: "October 25, 2024", text: "There was a chat outage on CMB, and it made me really nervous. I didn't want you to think I wasn't interested in you, because I really still am!", img: "assets/mm_1y_2.jpg" },
-                    { title: "Our First Met 🙂", date: "November 3, 2024", text: "Hello there, glad to see you!", img: "assets/mm_1y_3.jpg" },
-                    { title: "First Treat From You", date: "November 13, 2024", text: "The lovely breakfast you made after the night we spent together (The night that you were scared because of that unfortunate event you'd heard about, and I offered to stay with you e_e)", img: "assets/mm_1y_4.jpg" },
-                    { title: "First Drink from You", date: "November 22, 2024", text: "Not bad! I kind of like your Rum wine more 🥳", img: "assets/mm_1y_5.jpg" },
-                    { title: "Our Very First Pic Together!", date: "December 10, 2024", text: "Thanks to N'Porpla ka", img: "assets/mm_1y_6.jpg" },
-                    { title: "Our First Day as a Couple :-)", date: "December 15, 2024", text: "From today, onwards 💞", img: "assets/mm_1y_7.jpg" },
-                    { title: "First Time Visiting Kind-of Museum", date: "December 22, 2024", text: "Act art smart dog at BACC", img: "assets/mm_1y_8.jpg" },
-                    { title: "CNX x X'Mas", date: "December 25, 2024", text: "You are the best gift I've ever had", img: "assets/mm_1y_9.jpg" },
-                    { title: "Last Day of 2024", date: "December 31, 2024", text: "Look forward to spending another year (and many more years) with you", img: "assets/mm_1y_10.jpg" },
+                    { title: "Our Beginning", date: "October 24, 2024", text: "Well, it took a fair bit of courage for me to match someone… and I'm glad I spent it on you. The one and only :-)", img: "assets/mm_y1_1.jpg" },
+                    { title: "First Incident!", date: "October 25, 2024", text: "There was a chat outage on CMB, and it made me really nervous. I didn't want you to think I wasn't interested in you, because I really still am!", img: "assets/mm_y1_2.jpg" },
+                    { title: "Our First Met 🙂", date: "November 3, 2024", text: "Hello there, glad to see you!", img: "assets/mm_y1_3.jpg" },
+                    { title: "First Treat From You", date: "November 13, 2024", text: "The lovely breakfast you made after the night we spent together (The night that you were scared because of that unfortunate event you'd heard about, and I offered to stay with you e_e)", img: "assets/mm_y1_4.jpg" },
+                    { title: "First Drink from You", date: "November 22, 2024", text: "Not bad! I kind of like your Rum wine more 🥳", img: "assets/mm_y1_5.jpg" },
+                    { title: "Our Very First Pic Together!", date: "December 10, 2024", text: "Thanks to N'Porpla ka", img: "assets/mm_y1_6.jpg" },
+                    { title: "Our First Day as a Couple :-)", date: "December 15, 2024", text: "From today, onwards 💞", img: "assets/mm_y1_7.jpg" },
+                    { title: "First Time Visiting Kind-of Museum", date: "December 22, 2024", text: "Act art smart dog at BACC", img: "assets/mm_y1_8.jpg" },
+                    { title: "CNX x X'Mas", date: "December 25, 2024", text: "You are the best gift I've ever had", img: "assets/mm_y1_9.jpg" },
+                    { title: "Last Day of 2024", date: "December 31, 2024", text: "Look forward to spending another year (and many more years) with you", img: "assets/mm_y1_10.jpg" },
                 ];
 
                 const timelineEl = document.getElementById('timeline');
@@ -299,7 +302,7 @@
                                             <div class="flip-card-front">
                                                 <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover rounded-lg">
                                             </div>
-                                            <div class="flip-card-back p-4 bg-gradient-to-br from-blue-700 to-indigo-900">
+                                            <div class="flip-card-back p-4" style="background: linear-gradient(to bottom, rgba(128, 128, 128, 1), rgba(128, 128, 128, 0.2));">
                                                 <p class="text-base leading-relaxed">${item.text}</p>
                                             </div>
                                         </div>
@@ -319,7 +322,8 @@
         <div class="w-full p-4 sm:p-6">
             <div class="flex items-center justify-center">
                 <div class="text-center">
-                    <h3 class="font-display text-2xl sm:text-3xl text-secondary-pink font-bold">
+                    <!-- <h3 class="font-display text-2xl sm:text-3xl text-secondary-pink font-bold"> -->
+                    <h3 class="font-display text-xl text-secondary-pink font-bold">
                         The Rest of Our First-Year Memories
                     </h3>
                 </div>
@@ -327,7 +331,7 @@
 
             <div class="text-center transition-colors group-hover:text-secondary-pink mb-8">
                 <p class="text-sm sm:text-base text-text-muted">
-                    Expand to see all the stories, surprises, and little moments.
+                    Expand to see more moments.
                 </p>
             </div>
 
@@ -367,11 +371,40 @@
 
                 <script>
                     const remainingGalleryData = [
-                        { id: 1, title: "First Trip Together", date: "November 18, 2024", text: "Caption 1", img: "assets/mm_1y_6.jpg", accent: "red" },
-                        { id: 2, title: "Our Cozy Stay-in Day", date: "January 2025", text: "Caption 2", img: "assets/mm_1y_7.jpg", accent: "green" },
-                        { id: 3, title: "A Little Surprise", date: "May 2025", text: "Caption 3", img: "assets/mm_1y_8.jpg", accent: "yellow" },
-                        { id: 4, title: "Rama VIII Bridge", date: "January 5, 2025", text: "Caption 4", img: "assets/mm_1y_11.jpg", accent: "blue" },
-                        { id: 5, title: "First Time Bouldering", date: "January 19, 2025", text: "Caption 5", img: "assets/mm_1y_12.jpg", accent: "indigo" },
+                        { title: "Rama VIII Bridge", date: "January 5, 2025", text: "After our walk in Lumini Park, we decided not to go home yet and went to Rama VIII Bridge so we could stay a little longer together.", img: "assets/mm_y1_11.jpg" },
+                        { title: "First Time Bouldering 🧗🏼", date: "January 19, 2025", text: "Not as bad as it should be because you were there 🙂 Thank you for introducing me this activity. And you know what, I am now a gym member!", img: "assets/mm_y1_12.jpg" },
+                        { title: "Chinese New Year", date: "January 28, 2025", text: "You ordered mangosteen and guava juice for me, along with a taro mochi tart. Thank you so much for the treat! I was really happy that you remembered I like guava juice. ☺️", img: "assets/mm_y1_13.jpg" },
+                        { title: "First staycation", date: "January 30, 2025", text: "Little by little, I'm preparing myself for the moment we start living together 🏡", img: "assets/mm_y1_14.jpg" },
+                        { title: "Science Center", date: "February 8, 2025", text: "After noodles at แซว, we went to the Science Center… and of course ended up falling asleep!", img: "assets/mm_y1_15.jpg" },
+                        { title: "(Post) Valentine 💝", date: "February 16, 2025", text: "An unexpected surprise from you. Our playlist is still growing.", img: "assets/mm_y1_16.jpg" },
+                        { title: "Getting New Amulet", date: "February 18, 2025", text: "Now you can take me everywhere with you. Just do not forget to worship me with your hugs and kisses", img: "assets/mm_y1_17.jpg" },
+                        { title: "A Month in Phnom Penh", date: "March 3, 2025", text: "Your books and postcards gave me something to look forward to every single day. It truly means a lot to me.", img: "assets/mm_y1_18.jpg" },
+                        { title: "", date: "March 13, 2025", text: "xxx", img: "assets/mm_y1_19.jpg" },
+                        { title: "prevalentine", date: "March 25, 2025", text: "xxx", img: "assets/mm_y1_20.jpg" },
+                        { title: "prevalentine", date: "April 2, 2025", text: "xxx", img: "assets/mm_y1_21.jpg" },
+                        { title: "prevalentine", date: "April 25, 2025", text: "xxx", img: "assets/mm_y1_22.jpg" },
+                        { title: "prevalentine", date: "May 9, 2025", text: "xxx", img: "assets/mm_y1_23.jpg" },
+                        { title: "xxx", date: "June 2, 2025", text: "xxx", img: "assets/mm_y1_24.jpg" },
+                        { title: "xxx", date: "June 4, 2025", text: "xxx", img: "assets/mm_y1_25.jpg" },
+                        { title: "xxx", date: "June 8, 2025", text: "xxx", img: "assets/mm_y1_26.jpg" },
+                        { title: "xxx", date: "June 11, 2025", text: "xxx", img: "assets/mm_y1_27.jpg" },
+                        { title: "xxx", date: "June 15, 2025", text: "xxx", img: "assets/mm_y1_28.jpg" },
+                        { title: "xxx", date: "June 16, 2025", text: "xxx", img: "assets/mm_y1_29.jpg" },
+                        { title: "xxx", date: "June 17, 2025", text: "xxx", img: "assets/mm_y1_30.jpg" },
+                        { title: "xxx", date: "July 11, 2025", text: "xxx", img: "assets/mm_y1_31.jpg" },
+                        { title: "xxx", date: "July 29, 2025", text: "xxx", img: "assets/mm_y1_39.jpg" },
+                        { title: "xxx", date: "August 3, 2025", text: "xxx", img: "assets/mm_y1_32.jpg" },
+                        { title: "xxx", date: "August 11, 2025", text: "xxx", img: "assets/mm_y1_33.jpg" },
+                        { title: "xxx", date: "August 17, 2025", text: "xxx", img: "assets/mm_y1_34.jpg" },
+                        { title: "Summer Sonic", date: "August 24, 2025", text: "xxx", img: "assets/mm_y1_35.jpg" },
+                        { title: "xxx", date: "September 2, 2025", text: "xxx", img: "assets/mm_y1_36.jpg" },
+                        { title: "xxx", date: "September 9, 2025", text: "xxx", img: "assets/mm_y1_37.jpg" },
+                        { title: "xxx", date: "September 26, 2025", text: "xxx", img: "assets/mm_y1_38.jpg" },
+                        { title: "xxx", date: "November 1, 2025", text: "xxx", img: "assets/mm_y1_40.jpg" },
+                        { title: "xxx", date: "November 8, 2025", text: "xxx", img: "assets/mm_y1_41.jpg" },
+                        { title: "xxx", date: "November 9, 2025", text: "xxx", img: "assets/mm_y1_42.jpg" },
+                        { title: "xxx", date: "November 15, 2025", text: "xxx", img: "assets/mm_y1_43.jpg" },
+                        { title: "xxx", date: "November 30, 2025", text: "xxx", img: "assets/mm_y1_44.jpg" },
                     ];
 
                     const accentMap = {
@@ -427,7 +460,7 @@
                         const [borderClass, textClass] = accentClasses.split(' ');
 
                         const html = `
-                            <div class="mini-flip-container shrink-0 w-[280px] sm:w-[320px] snap-center">
+                            <div class="mini-flip-container shrink-0 w-[280px] sm:w-[320px] snap-center mb-8">
                                 <div class="mini-flip-inner transition-transform duration-500 ease-in-out">
                                     <div class="mini-flip-front">
                                         <img src="${item.img}" alt="${item.title}">
@@ -437,13 +470,12 @@
                                         </div>
                                     </div>
                                     <div class="mini-flip-back border-2 ${borderClass} p-6 flex flex-col items-center justify-center text-center">
-                                        <h3 class="text-xl font-bold ${textClass} mb-4">${item.title}</h3>
                                         <p class="text-base leading-relaxed text-gray-300">${item.text}</p>
-                                        <p class="text-sm text-text-muted mt-5">${item.date}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                                        </div>
+                                        </div>
+                                        </div>
+                                        `;
+                                        // <p class="text-sm text-text-muted mt-5">${item.date}</p>
                         container.insertAdjacentHTML('beforeend', html);
                     });
 
